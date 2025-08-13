@@ -116,3 +116,17 @@ graph TD
 ## Thread Safety
 
 - Ensures multiple threads can safely access shared resources without race conditions.
+
+## Lambda Expressions in Java
+
+- **Runnable** is a **functional interface**.
+- **Functional Interface**: An interface that has **only one abstract method**.
+- **Lambda Expression**: An anonymous function (a function without a name) that can be used to implement a functional interface.
+
+### Example
+```java
+// Using Lambda Expression with Runnable
+Runnable task = () -> {
+    System.out.println("Thread is running...");
+};
+new Thread(task).start();
