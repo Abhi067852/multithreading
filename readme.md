@@ -130,3 +130,84 @@ Runnable task = () -> {
     System.out.println("Thread is running...");
 };
 new Thread(task).start();
+
+## Thread Pools
+1.Resource management
+2. Response time decrease
+3. Control over Thread Counter
+
+Problems with existing Thread creation and management
+Manual thread management
+Scalability
+Thread Reuse
+Error Handling
+
+
+Executor Framework
+introduced in java 5 as part of the java.util concurrent.package to simplify the development of concurrent applications by abstracting away many of complexities involved in creating and managing thread
+We'll be writing business logic executor will handle threading
+
+Executor
+ExecutorService
+SchedulerExecutorService
+
+Example of executor
+public class ExecutorExample {
+    public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newFixedThreadPool(9);
+        long startTime = System.currentTimeMillis();
+        for(int i=0;i<10;i++){
+            int finalI = i;
+            executorService.submit(() ->{
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                System.out.println(finalI);
+            });
+
+        }
+
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(10000, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("Time");
+        System.out.println(System.currentTimeMillis()-startTime);
+
+    }
+}
+
+.invokeAll() execute the list of callables and return futures and result when all completed.
+.invokeAll() blocks the main thread till all threads are completed
+.invokeAny() execute the given tasks and return result directly and skip all other tasks
+
+
+
+Difference between runnable and callable
+we can return something throw callable interface
+Callable also throws exceotion
+in runnable we use run()
+in callable we use call()
+
+Future<String> future when we use .submit() then we can return something and store that in Future
+
+
+methods in Future
+f.get()
+f.isDone()
+f.cancel()
+f.isCancel() 
+
+
+
+
+
+
+
+
+ 
