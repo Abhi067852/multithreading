@@ -203,6 +203,24 @@ f.isDone()
 f.cancel()
 f.isCancel() 
 
+ScheduledExecutor
+task can be scheduled as well as we can also have the time period
+add code
+
+.scheduleAtFixedRate()
+.scheduleAtWithDelay()
+
+It returns ScheduledFuture
+
+
+Executors.newCachedThreadPool()  makes a thread pool and terminate the thread after 60 sec of inactivity we can have many thread pools
+
+CountDownLatch
+when we want to wait for completion of 1 or more threads
+
+![img.png](img.png)
+
+
 
 
 
