@@ -1,15 +1,12 @@
 package org.example.ExecutorImpl;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
-public class CountDownLatchExample{
+public class CyclicBarrierExample {
     public static void main(String[] args) throws InterruptedException {
         int tasks = 5;
         ExecutorService pool = Executors.newFixedThreadPool(3);
-        CountDownLatch done = new CountDownLatch(tasks);
+        CyclicBarrier barrier = new CyclicBarrier(tasks);
 
         try {
             for (int i = 1; i <= tasks; i++) {
@@ -20,18 +17,17 @@ public class CountDownLatchExample{
                         System.out.println("Task " + id + " started on " + Thread.currentThread().getName());
                         TimeUnit.MILLISECONDS.sleep(300 + id * 100L);
                         System.out.println("Task " + id + " finished");
+                        barrier.await();
                     } catch (InterruptedException ie) {
                         Thread.currentThread().interrupt();
-                    } finally {
-                        // Always count down in finally
-                        done.countDown();
+                    } catch (BrokenBarrierException e) {
+                        throw new RuntimeException(e);
                     }
                 });
             }
 
-            // Wait for all tasks to finish (with a safety timeout)
-            boolean allDone = done.await(5, TimeUnit.SECONDS);
-            System.out.println("All tasks done? " + allDone);
+
+            System.out.println("All tasks done? ");
         } finally {
             pool.shutdown();
         }
